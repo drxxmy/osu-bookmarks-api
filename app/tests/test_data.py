@@ -5,6 +5,8 @@ from models.user import User
 
 def create_test_data():
     """Returns a list of test users with collections and beatmaps"""
+    first_user = User(name="First user")
+
     first_map = Beatmap(
         map_id=1034179,
         song_name="Yuuga ni Sakase, Sumizome no Sakura ~ The Harm of Coming into Existence",
@@ -19,10 +21,7 @@ def create_test_data():
         map_creator_name="Orkay",
         map_creator_id=9321674,
     )
-    first_collection = Collection(name="cool maps", beatmaps=[first_map, second_map])
-    second_collection = Collection(
-        name="another cool maps", beatmaps=[first_map, second_map]
-    )
 
-    test_user = User(name="Test", collections=[first_collection, second_collection])
-    return [test_user]
+    first_collection = Collection(name="cool maps", beatmaps=[first_map, second_map])
+    second_user = User(name="Second user", collections=[first_collection])
+    return [first_user, second_user]
