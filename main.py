@@ -5,9 +5,11 @@ import datetime as dt
 
 class Beatmap(BaseModel):
     map_id: int
-    map_name: str
-    map_creator: str
-    tags: list[str]
+    song_name: str
+    artist_name: str
+    map_creator_name: str
+    map_creator_id: int
+    tags: list[str] | None
 
 
 class Bookmark(BaseModel):
