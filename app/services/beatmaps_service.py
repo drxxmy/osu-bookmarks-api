@@ -1,13 +1,10 @@
 from fastapi import HTTPException, status
 from models.user import User
 from models.beatmap import Beatmap
-from models.collection import Collection
+from tests.test_data import create_test_data
 
-# b = Bookmark("")
-# c = Collection(name="cool maps", bookmarks=)
-users: list[User] = []
-test_user = User(name="Test", collections=[])
-users.append(test_user)
+# Initialize with test data
+users: list[User] = create_test_data()
 
 
 def list_beatmaps(user_id: int, collection_id: int, limit: int = 25) -> list[Beatmap]:

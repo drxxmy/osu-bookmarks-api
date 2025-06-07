@@ -1,27 +1,10 @@
 from fastapi import HTTPException, status
 from models.user import User
-from models.beatmap import Beatmap
 from models.collection import Collection
+from tests.test_data import create_test_data
 
-x = Beatmap(
-    map_id=1034179,
-    song_name="Yuuga ni Sakase, Sumizome no Sakura ~ The Harm of Coming into Existence",
-    artist_name="Demetori",
-    map_creator_name="jonathanlfj",
-    map_creator_id=270377,
-)
-y = Beatmap(
-    map_id=2069184,
-    song_name="Imperfect Cherry Blossom",
-    artist_name="Adust Rain",
-    map_creator_name="Orkay",
-    map_creator_id=9321674,
-)
-c = Collection(name="cool maps", beatmaps=[x, y])
-a = Collection(name="another cool maps", beatmaps=[x, y])
-users: list[User] = []
-test_user = User(name="Test", collections=[a, c])
-users.append(test_user)
+# Initialize with test data
+users: list[User] = create_test_data()
 
 
 def list_collections(user_id: int, limit: int = 25) -> list[Collection]:
