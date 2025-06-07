@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException, status
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+from typing import Optional, List
 import datetime as dt
 
 
@@ -9,12 +10,12 @@ class Beatmap(BaseModel):
     artist_name: str
     map_creator_name: str
     map_creator_id: int
-    tags: list[str] | None
+    tags: Optional[List[str]] = None
 
 
 class Bookmark(BaseModel):
     beatmap: Beatmap
-    date_added: dt.datetime
+    date_added: dt.datetime = Field(default_factory=dt.datetime.now)
 
 
 class Collection(BaseModel):
