@@ -17,9 +17,14 @@ class Bookmark(BaseModel):
     date_added: dt.datetime
 
 
-class User(BaseModel):
+class Collection(BaseModel):
     name: str
     bookmarks: list[Bookmark]
+
+
+class User(BaseModel):
+    name: str
+    collections: list[Collection]
 
 
 users: list[User] = []
