@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException, status
-from .models import beatmap, bookmark, collection, user
+from models import beatmap, bookmark, collection, user
 import datetime as dt
 
 
