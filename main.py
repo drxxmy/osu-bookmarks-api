@@ -34,7 +34,10 @@ users.append(test_user)
 app = FastAPI()
 
 
-@app.get("/api/v1/users/{user_id}/collections/{collection_id}/bookmarks")
+@app.get(
+    "/api/v1/users/{user_id}/collections/{collection_id}/bookmarks",
+    response_model=list[Bookmark],
+)
 async def list_bookmarks(
     user_id: int, collection_id: int, limit: int = 25
 ) -> list[Bookmark]:
@@ -60,6 +63,7 @@ async def list_bookmarks(
 @app.post(
     "/api/v1/users/{user_id}/collections/{collection_id}/bookmarks",
     status_code=status.HTTP_201_CREATED,
+    response_model=Bookmark,
 )
 async def create_bookmark(
     user_id: int, collection_id: int, bookmark: Bookmark
@@ -84,7 +88,10 @@ async def create_bookmark(
     return bookmark
 
 
-@app.get("/api/v1/users/{user_id}/collections/{collection_id}/bookmarks/{bookmark_id}")
+@app.get(
+    "/api/v1/users/{user_id}/collections/{collection_id}/bookmarks/{bookmark_id}",
+    response_model=Bookmark,
+)
 async def get_bookmark(user_id: int, collection_id: int, bookmark_id: int) -> Bookmark:
     try:
         user = users[user_id]
