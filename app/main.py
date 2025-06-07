@@ -1,35 +1,10 @@
 from fastapi import FastAPI, HTTPException, status
-from pydantic import BaseModel, Field
-from typing import Optional, List
+from .models import beatmap, bookmark, collection, user
 import datetime as dt
 
 
-class Beatmap(BaseModel):
-    map_id: int
-    song_name: str
-    artist_name: str
-    map_creator_name: str
-    map_creator_id: int
-    tags: Optional[List[str]] = None
-
-
-class Bookmark(BaseModel):
-    beatmap: Beatmap
-    date_added: dt.datetime = Field(default_factory=dt.datetime.now)
-
-
-class Collection(BaseModel):
-    name: str
-    bookmarks: list[Bookmark]
-
-
-class User(BaseModel):
-    name: str
-    collections: list[Collection]
-
-
-users: list[User] = []
-test_user = User(name="Test", bookmarks=[])
+users: list[user.User] = []
+test_user = user.User(name="Test", collections=[])
 users.append(test_user)
 
 app = FastAPI()
@@ -37,11 +12,11 @@ app = FastAPI()
 
 @app.get(
     "/api/v1/users/{user_id}/collections/{collection_id}/bookmarks",
-    response_model=list[Bookmark],
+    response_model=list[bookmark.Bookmark],
 )
 async def list_bookmarks(
     user_id: int, collection_id: int, limit: int = 25
-) -> list[Bookmark]:
+) -> list[bookmark.Bookmark]:
     try:
         user = users[user_id]
     except IndexError:
@@ -64,11 +39,11 @@ async def list_bookmarks(
 @app.post(
     "/api/v1/users/{user_id}/collections/{collection_id}/bookmarks",
     status_code=status.HTTP_201_CREATED,
-    response_model=Bookmark,
+    response_model=bookmark.Bookmark,
 )
 async def create_bookmark(
-    user_id: int, collection_id: int, bookmark: Bookmark
-) -> Bookmark:
+    user_id: int, collection_id: int, bookmark: bookmark.Bookmark
+) -> bookmark.Bookmark:
     try:
         user = users[user_id]
     except IndexError:
@@ -91,9 +66,11 @@ async def create_bookmark(
 
 @app.get(
     "/api/v1/users/{user_id}/collections/{collection_id}/bookmarks/{bookmark_id}",
-    response_model=Bookmark,
+    response_model=bookmark.Bookmark,
 )
-async def get_bookmark(user_id: int, collection_id: int, bookmark_id: int) -> Bookmark:
+async def get_bookmark(
+    user_id: int, collection_id: int, bookmark_id: int
+) -> bookmark.Bookmark:
     try:
         user = users[user_id]
     except IndexError:
