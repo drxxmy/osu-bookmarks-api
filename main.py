@@ -35,7 +35,9 @@ app = FastAPI()
 
 
 @app.get("/api/v1/users/{user_id}/collections/{collection_id}/bookmarks")
-async def list_bookmarks(user_id: int, collection_id: int, limit: int = 25):
+async def list_bookmarks(
+    user_id: int, collection_id: int, limit: int = 25
+) -> list[Bookmark]:
     try:
         user = users[user_id]
     except IndexError:
@@ -59,7 +61,9 @@ async def list_bookmarks(user_id: int, collection_id: int, limit: int = 25):
     "/api/v1/users/{user_id}/collections/{collection_id}/bookmarks",
     status_code=status.HTTP_201_CREATED,
 )
-async def create_bookmark(user_id: int, collection_id: int, bookmark: Bookmark):
+async def create_bookmark(
+    user_id: int, collection_id: int, bookmark: Bookmark
+) -> Bookmark:
     try:
         user = users[user_id]
     except IndexError:
