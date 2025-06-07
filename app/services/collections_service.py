@@ -1,6 +1,6 @@
 from fastapi import HTTPException, status
-from models.user import User
-from models.collection import Collection
+from schemes.user import User
+from schemes.collection import Collection
 from tests.test_data import create_test_data
 
 # Initialize with test data

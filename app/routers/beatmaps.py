@@ -1,5 +1,5 @@
 from fastapi import APIRouter, status
-from models.beatmap import Beatmap
+from schemes.beatmap import Beatmap
 from services import beatmaps_service
 
 router = APIRouter(

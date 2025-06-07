@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from models.collection import Collection
+from schemes.collection import Collection
 
 
 class User(BaseModel):

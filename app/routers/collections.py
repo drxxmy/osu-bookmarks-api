@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from models.collection import Collection
+from schemes.collection import Collection
 from services import collections_service
 
 router = APIRouter(prefix="/api/v1/users/{user_id}", tags=["collections"])

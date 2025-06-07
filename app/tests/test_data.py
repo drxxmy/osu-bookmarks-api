@@ -1,6 +1,6 @@
-from models.beatmap import Beatmap
-from models.collection import Collection
-from models.user import User
+from schemes.beatmap import Beatmap
+from schemes.collection import Collection
+from schemes.user import User
 
 
 def create_test_data():

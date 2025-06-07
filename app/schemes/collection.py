@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from models.beatmap import Beatmap
+from schemes.beatmap import Beatmap
 import datetime as dt
 
 
