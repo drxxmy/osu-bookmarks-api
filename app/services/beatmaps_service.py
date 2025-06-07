@@ -1,13 +1,16 @@
 from fastapi import HTTPException, status
-from models.bookmark import Bookmark
 from models.user import User
+from models.beatmap import Beatmap
+from models.collection import Collection
 
+# b = Bookmark("")
+# c = Collection(name="cool maps", bookmarks=)
 users: list[User] = []
 test_user = User(name="Test", collections=[])
 users.append(test_user)
 
 
-def list_bookmarks(user_id: int, collection_id: int, limit: int = 25) -> list[Bookmark]:
+def list_beatmaps(user_id: int, collection_id: int, limit: int = 25) -> list[Beatmap]:
     try:
         user = users[user_id]
     except IndexError:
@@ -24,10 +27,10 @@ def list_bookmarks(user_id: int, collection_id: int, limit: int = 25) -> list[Bo
             detail=f"Collection with id {collection_id} not found for user {user_id}",
         )
 
-    return collection.bookmarks[:limit]
+    return collection.beatmaps[:limit]
 
 
-def create_bookmark(user_id: int, collection_id: int, bookmark: Bookmark) -> Bookmark:
+def add_beatmap(user_id: int, collection_id: int, beatmap: Beatmap) -> Beatmap:
     try:
         user = users[user_id]
     except IndexError:
@@ -44,11 +47,11 @@ def create_bookmark(user_id: int, collection_id: int, bookmark: Bookmark) -> Boo
             detail=f"Collection with id {collection_id} not found for user {user_id}",
         )
 
-    collection.bookmarks.append(bookmark)
-    return bookmark
+    collection.beatmaps.append(beatmap)
+    return beatmap
 
 
-def get_bookmark(user_id: int, collection_id: int, bookmark_id: int) -> Bookmark:
+def get_beatmap(user_id: int, collection_id: int, beatmap_id: int) -> Beatmap:
     try:
         user = users[user_id]
     except IndexError:
@@ -65,4 +68,4 @@ def get_bookmark(user_id: int, collection_id: int, bookmark_id: int) -> Bookmark
             detail=f"Collection with id {collection_id} not found for user {user_id}",
         )
 
-    return collection.bookmarks[bookmark_id]
+    return collection.beatmaps[beatmap_id]

@@ -1,7 +1,7 @@
-from pydantic import BaseModel, Field
-from .bookmark import Bookmark
+from pydantic import BaseModel
+from .beatmap import Beatmap
 
 
 class Collection(BaseModel):
     name: str
-    bookmarks: list[Bookmark]
+    beatmaps: list[Beatmap]
