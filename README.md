@@ -1,5 +1,5 @@
 # Starting a project
 
 ```bash
-$ fastapi dev main.py
+$ fastapi dev app/main.py
 ```
