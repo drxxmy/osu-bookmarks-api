@@ -4,4 +4,4 @@ from models.collection import Collection
 
 class User(BaseModel):
     name: str
-    collections: list[Collection]
+    collections: list[Collection] = []
