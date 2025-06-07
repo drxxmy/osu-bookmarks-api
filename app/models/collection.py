@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from .beatmap import Beatmap
+from models.beatmap import Beatmap
 
 
 class Collection(BaseModel):
