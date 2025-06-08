@@ -1,7 +1,6 @@
 from database.models import CollectionCreate
 from database.schemes import Collection
 from fastapi import HTTPException, status
-from services.users_service import user_exists
 from sqlalchemy.orm import Session
 
 
