@@ -1,70 +1,34 @@
+from database.models import CollectionCreate
+from database.schemes import Collection
 from fastapi import HTTPException, status
-from schemes.user import User
-from schemes.collection import Collection
-from tests.test_data import create_test_data
-
-# Initialize with test data
-users: list[User] = create_test_data()
+from services.users_service import user_exists
+from sqlalchemy.orm import Session
 
 
-def list_collections(user_id: int, limit: int = 25) -> list[Collection]:
-    """List collections from a user.
+def create_collection(db: Session, collection: CollectionCreate) -> Collection:
+    db_collection = Collection(**collection.model_dump())
+    db.add(db_collection)
+    db.commit()
 
-    This function looks up collections from a specified user and returns a list of them.
-    It performs a check to ensure the user exist before returning the list.
-
-    Args:
-        user_id: The ID of the user who owns the collections.
-        limit: Limit of the returned collections.
-
-    Returns:
-        list[Collection]: The requested list of collections.
-
-    Raises:
-        HTTPException: 404 error if either:
-            - The user with the specified ID doesn't exist
-    """
-    try:
-        user = users[user_id]
-    except IndexError:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"User with id {user_id} not found",
-        )
-
-    return user.collections[:limit]
+    return db_collection
 
 
-def get_collection(user_id: int, collection_id: int) -> Collection:
-    """Retrieve a specific collection from a user.
+def list_collections(db: Session, user_id: int, limit: int = 25) -> list[Collection]:
+    collections = (
+        db.query(Collection).filter(Collection.user_id == user_id).limit(limit).all()
+    )
 
-    This function looks up a collection by its ID within a specified collection belonging
-    to a particular user. It performs several checks to ensure the user and collection
-    exist before returning the collection.
+    return collections
 
-    Args:
-        user_id: The ID of the user who owns the collection.
-        collection_id: The ID of the collection.
 
-    Returns:
-        Collection: The requested collection object if found.
+def get_collection(db: Session, user_id: int, collection_id: int) -> Collection:
+    collection = (
+        db.query(Collection)
+        .filter(Collection.id == collection_id, Collection.user_id == user_id)
+        .first()
+    )
 
-    Raises:
-        HTTPException: 404 error if either:
-            - The user with the specified ID doesn't exist
-            - The collection with the specified ID doesn't exist for the user
-    """
-    try:
-        user = users[user_id]
-    except IndexError:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"User with id {user_id} not found",
-        )
-
-    try:
-        collection = user.collections[collection_id]
-    except IndexError:
+    if not collection:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Collection with id {collection_id} not found for user {user_id}",

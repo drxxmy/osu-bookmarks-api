@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from routers import beatmaps, collections, users
 
-
 app = FastAPI(
     title="osu!bookmarks API",
     version="0.1.0",
