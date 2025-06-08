@@ -5,11 +5,18 @@ from sqlalchemy.orm import Session
 
 
 def create_user(db: Session, user: UserCreate) -> User:
-    db_user = User(**user.model_dump())
-    db.add(db_user)
-    db.commit()
-
-    return db_user
+    try:
+        db_user = User(**user.model_dump())
+        db.add(db_user)
+        db.commit()
+        db.refresh(db_user)
+        return db_user
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Error creating user: {str(e)}",
+        )
 
 
 def delete_user(db: Session, user_id: int):
