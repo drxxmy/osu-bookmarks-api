@@ -6,6 +6,7 @@ app = FastAPI(
     version="0.1.0",
     openapi_url="/api/v1/openapi.json",
     docs_url="/api/v1/docs",
+    redoc_url="/api/v1/redoc",
 )
 
 app.include_router(beatmaps.router)
