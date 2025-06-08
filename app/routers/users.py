@@ -29,8 +29,10 @@ async def delete_user(user_id: int, db: Session = Depends(get_db)):
     "/users",
     response_model=list[UserBase],
 )
-async def list_users(limit: int = 25, db: Session = Depends(get_db)) -> list[User]:
-    return users_service.list_users(db, limit)
+async def list_users(
+    skip: int = 0, limit: int = 25, db: Session = Depends(get_db)
+) -> list[User]:
+    return users_service.list_users(db, skip, limit)
 
 
 @router.get(

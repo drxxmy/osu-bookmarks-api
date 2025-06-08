@@ -25,8 +25,8 @@ def delete_user(db: Session, user_id: int):
     db.commit()
 
 
-def list_users(db: Session, limit: int = 25) -> list[User]:
-    return db.query(User).limit(limit).all()
+def list_users(db: Session, skip: int = 0, limit: int = 25) -> list[User]:
+    return db.query(User).offset(skip).limit(limit).all()
 
 
 def get_user(db: Session, user_id: int) -> User:
