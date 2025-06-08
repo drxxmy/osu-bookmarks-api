@@ -1,8 +1,7 @@
-from database.models import BeatmapCreate
 from database.schemes import Beatmap
 from services.collections_service import get_collection
-from services.users_service import get_user
 from sqlalchemy.orm import Session
+from utils import osu_api
 
 
 def list_beatmaps(
@@ -13,34 +12,24 @@ def list_beatmaps(
     if not collection:
         return []
 
-    # Access related beatmaps via relationship
     return collection.beatmaps[:limit]
-    # user_id = Column(Integer, ForeignKey("users.id"))
-    # collection = get_collection(db, user_id, collection_id)
-
-    # beatmaps = (
-    #     db.query(Beatmap)
-    #     .filter(Beatmap.collection_id == collection.id)
-    #     .limit(limit)
-    #     .all()
-    # )
-
-    # return beatmaps
 
 
 def add_beatmap(
-    db: Session, user_id: int, collection_id: int, beatmap: BeatmapCreate
+    db: Session, user_id: int, collection_id: int, beatmap_id: int
 ) -> Beatmap:
     # Fetch the collection
     collection = get_collection(db, user_id, collection_id)
 
+    beatmap = osu_api.api.beatmapset(beatmap_id)
+
     # Create ORM instance from Pydantic data
     new_beatmap = Beatmap(
-        beatmap_id=beatmap.beatmap_id,
-        song_title=beatmap.song_title,
-        song_artist=beatmap.song_artist,
-        mapper_id=beatmap.mapper_id,
-        mapper_username=beatmap.mapper_username,
+        beatmap_id=beatmap.id,
+        song_title=beatmap.title_unicode,
+        song_artist=beatmap.artist_unicode,
+        mapper_id=beatmap.user_id,
+        mapper_username=beatmap.user().username,
     )
 
     # Append the ORM object to the collection's relationship
@@ -52,10 +41,6 @@ def add_beatmap(
     db.refresh(new_beatmap)
 
     return new_beatmap
-    collection = get_collection(db, user_id, collection_id)
-
-    collection.beatmaps.append(beatmap)
-    return beatmap
 
 
 def get_beatmap(
