@@ -35,6 +35,13 @@ async def list_users(
     return users_service.list_users(db, skip, limit)
 
 
+@router.put("/users/{user_id}")
+async def update_user(
+    user_id: int, user_update: UserCreate, db: Session = Depends(get_db)
+):
+    return users_service.update_user(db, user_id, user_update)
+
+
 @router.get(
     "/users/{user_id}",
     response_model=UserBase,

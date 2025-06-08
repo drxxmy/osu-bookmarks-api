@@ -36,6 +36,22 @@ def list_users(db: Session, skip: int = 0, limit: int = 25) -> list[User]:
     return db.query(User).offset(skip).limit(limit).all()
 
 
+def update_user(db: Session, user_id: int, user_update: UserCreate) -> User:
+    db_user = db.query(User).filter(User.id == user_id).first()
+    if not db_user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"User with id {user_id} not found",
+        )
+
+    for key, value in user_update.model_dump().items():
+        setattr(db_user, key, value)
+
+    db.commit()
+    db.refresh(db_user)
+    return db_user
+
+
 def get_user(db: Session, user_id: int) -> User:
     user = db.query(User).filter(User.id == user_id).first()
 
