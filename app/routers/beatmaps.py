@@ -28,10 +28,10 @@ async def list_beatmaps(
 async def add_beatmap(
     user_id: int,
     collection_id: int,
-    beatmap: BeatmapCreate,
+    beatmap_id: int,
     db: Session = Depends(get_db),
 ):
-    return beatmaps_service.add_beatmap(db, user_id, collection_id, beatmap)
+    return beatmaps_service.add_beatmap(db, user_id, collection_id, beatmap_id)
 
 
 @router.get(

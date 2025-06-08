@@ -16,7 +16,7 @@ router = APIRouter(prefix="/api/v1/users/{user_id}", tags=["collections"])
 async def create_collection(
     user_id: int, collection: CollectionCreate, db: Session = Depends(get_db)
 ):
-    return collections_service.create_collection(db, collection)
+    return collections_service.create_collection(db, user_id, collection)
 
 
 @router.delete(

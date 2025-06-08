@@ -1,11 +1,14 @@
 [project]
 name = "osu-bookmarks-api"
-version = "0.1.0"
-description = "Add your description here"
+version = "0.2.0"
+description = "API to manage collections of osu!beatmaps"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "authlib>=1.6.0",
     "fastapi[standard]>=0.115.12",
+    "ossapi>=5.2.1",
     "pymysql>=1.1.1",
+    "python-dotenv>=1.1.0",
     "sqlalchemy>=2.0.41",
 ]

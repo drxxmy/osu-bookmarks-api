@@ -7,7 +7,6 @@ from pydantic import BaseModel
 # Beatmap models
 class BeatmapBase(BaseModel):
     id: int
-    beatmap_id: int
     song_title: str
     song_artist: str
     mapper_id: int
@@ -18,7 +17,7 @@ class BeatmapBase(BaseModel):
 
 
 class BeatmapCreate(BaseModel):
-    beatmap_id: int
+    id: int
     song_title: str
     song_artist: str
     mapper_id: int

@@ -48,7 +48,6 @@ class Beatmap(Base):
     __tablename__ = "beatmaps"
 
     id = Column(Integer, primary_key=True, index=True)
-    beatmap_id = Column(Integer)
     song_title = Column(String(100))
     song_artist = Column(String(50))
     mapper_id = Column(Integer)

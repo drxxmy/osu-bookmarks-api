@@ -4,8 +4,10 @@ from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 
-def create_collection(db: Session, collection: CollectionCreate) -> Collection:
-    db_collection = Collection(**collection.model_dump())
+def create_collection(
+    db: Session, user_id: int, collection: CollectionCreate
+) -> Collection:
+    db_collection = Collection(user_id=user_id, **collection.model_dump())
     db.add(db_collection)
     db.commit()
 
