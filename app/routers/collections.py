@@ -34,9 +34,9 @@ async def delete_collection(
     response_model=list[CollectionBase],
 )
 async def list_collections(
-    user_id: int, db: Session = Depends(get_db)
+    user_id: int, skip: int = 0, limit: int = 25, db: Session = Depends(get_db)
 ) -> list[Collection]:
-    return collections_service.list_collections(db, user_id)
+    return collections_service.list_collections(db, user_id, skip, limit)
 
 
 @router.get(

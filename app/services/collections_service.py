@@ -29,9 +29,15 @@ def delete_collection(db: Session, collection_id: int, user_id: int):
     db.commit()
 
 
-def list_collections(db: Session, user_id: int, limit: int = 25) -> list[Collection]:
+def list_collections(
+    db: Session, user_id: int, skip: int = 0, limit: int = 25
+) -> list[Collection]:
     collections = (
-        db.query(Collection).filter(Collection.user_id == user_id).limit(limit).all()
+        db.query(Collection)
+        .filter(Collection.user_id == user_id)
+        .offset(skip)
+        .limit(limit)
+        .all()
     )
 
     return collections
