@@ -4,18 +4,6 @@ from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 
-def user_exists(db: Session, user_id: int) -> bool:
-    user = db.query(User).filter(User.id == user_id).first()
-
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"User with id {user_id} not found",
-        )
-
-    return True
-
-
 def create_user(db: Session, user: UserCreate) -> User:
     db_user = User(**user.model_dump())
     db.add(db_user)
