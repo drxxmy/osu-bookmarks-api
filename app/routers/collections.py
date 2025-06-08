@@ -19,6 +19,16 @@ async def create_collection(
     return collections_service.create_collection(db, collection)
 
 
+@router.delete(
+    "/collections/{collection_id}",
+    status_code=status.HTTP_200_OK,
+)
+async def delete_collection(
+    collection_id: int, user_id: int, db: Session = Depends(get_db)
+):
+    return collections_service.delete_collection(db, collection_id, user_id)
+
+
 @router.get(
     "/collections",
     response_model=list[CollectionBase],

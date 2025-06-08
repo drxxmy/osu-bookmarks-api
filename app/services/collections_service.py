@@ -13,6 +13,23 @@ def create_collection(db: Session, collection: CollectionCreate) -> Collection:
     return db_collection
 
 
+def delete_collection(db: Session, collection_id: int, user_id: int):
+    db_collection = (
+        db.query(Collection)
+        .filter(Collection.id == collection_id, Collection.user_id == user_id)
+        .first()
+    )
+
+    if not db_collection:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Collection with id {collection_id} not found for user {user_id}",
+        )
+
+    db.delete(db_collection)
+    db.commit()
+
+
 def list_collections(db: Session, user_id: int, limit: int = 25) -> list[Collection]:
     collections = (
         db.query(Collection).filter(Collection.user_id == user_id).limit(limit).all()
